@@ -8,14 +8,11 @@
 
 2 - Assim como a sessão, as credenciais: AccessKey, SecretKey e SessionToken, também duram 4h, depois desse tempo, precisa entrar no Academy novamente e pegar os novos valores e atualizar o arquivo de credenciais da aws local;
 
-3 - Temos disponíveis 100 dólares, administre com sabedoria esse valor, sempre que finalizar, destrua a infra criada para para com os gastos desnecessários;
+3 - Temos disponíveis 50 dólares, administre com sabedoria esse valor, sempre que finalizar, destrua a infra criada para para com os gastos desnecessários;
 
 ## eks-cluster
 
 Neste exemplo, utilizamos o tipo de conexão via LoadBalancer em nosso Service, e ele cria um Network Load Balance que fornece um único endereço IP para encaminhar todo tráfego para nosso serviço (NGINX)
-
-
-***Utilizar o exemplo eks-without-alb é o mais simples e o mais correto nesse contexto***
 
 ## Comandos utilizados
 
