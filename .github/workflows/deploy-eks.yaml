@@ -1,0 +1,35 @@
+name: Deploy AWS Academy - EKS
+
+on:
+	push:
+		branches:
+			- main
+
+env:
+	REGION_DEFAULT: "us-east-1"
+	CLUSTER_NAME: "EKS-FIAP"
+
+jobs:
+	deploy:
+		name: Deploy AWS Academy
+		runs-on: ubuntu-latest
+	
+		steps:
+			- name: Checkout
+				uses: actions/checkout@v4
+
+			- name: AWS Configure
+				uses: aws-actions/configure-aws-credentials@v4
+				with:
+					aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+					aws-secret-access-key: ${{ secrets.AWS_SECRET_ID }}
+					aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+					aws-region: ${{ env.REGION_DEFAULT }}
+
+			- name: Update Kube Config
+				run: aws eks update-kubeconfig --name ${{ env.CLUSTER_NAME }} --region ${{ env.REGION_DEFAULT }}
+
+			- name: Kube Apply
+				run: |
+					kubectl apply -f k8s/eks-deployment.yaml
+					kubectl apply -f k8s/eks-svc.yaml
