@@ -1,0 +1,51 @@
+name: Deploy AWS Production - NETT
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  AWS_REGION: us-east-1
+  CLUSTER_NAME: EKS-FIAP
+
+jobs:
+  deploy-production:
+    name: Deploy EKS Production
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ID }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: ${{ env.AWS_REGION }}
+      
+      - name: Login ECR
+        run: |
+          aws ecr get-login-password \
+          --region ${{ env.AWS_REGION }} | \
+          docker login --username AWS \
+          --password-stdin \
+          759212231558.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
+
+      - name: BuildAndPush Dockerfile
+        run: |
+          docker build -t 6nett . && \
+          docker tag 6nett:latest 759212231558.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/6nett:latest && \
+          docker push 759212231558.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/6nett:latest
+
+      - name: Update Kube Config
+        run: |
+          aws eks update-kubeconfig \
+          --name ${{ env.CLUSTER_NAME }} \
+          --region ${{ env.AWS_REGION }}
+      
+      - name: Kube Apply
+        run: |
+          kubectl apply -f k8s/eks-deployment.yaml
+          kubectl apply -f k8s/eks-svc.yaml
