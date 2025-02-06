@@ -3,7 +3,7 @@ name: Deploy AWS Production - NETT
 on:
   push:
     branches:
-      - main
+      - teste
 
 env:
   AWS_REGION: us-east-1
