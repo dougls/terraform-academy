@@ -19,7 +19,7 @@ variable "nodeGroup" {
 }
 
 variable "instanceType" {
-  default = "t3.medium"
+  default = "t3.large"
 }
 
 variable "principalArn" {
