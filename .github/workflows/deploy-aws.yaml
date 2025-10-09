@@ -3,7 +3,7 @@ name: Deploy AWS Production - NETT
 on:
   push:
     branches:
-      - teste
+      - main
 
 env:
   AWS_REGION: us-east-1
@@ -31,13 +31,13 @@ jobs:
           --region ${{ env.AWS_REGION }} | \
           docker login --username AWS \
           --password-stdin \
-          759212231558.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
+          ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
 
       - name: BuildAndPush Dockerfile
         run: |
           docker build -t 6nett . && \
-          docker tag 6nett:latest 759212231558.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/6nett:latest && \
-          docker push 759212231558.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/6nett:latest
+          docker tag k8s:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/k8s:latest && \
+          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/k8s:latest
 
       - name: Update Kube Config
         run: |
