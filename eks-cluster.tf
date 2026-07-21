@@ -1,6 +1,6 @@
 resource "aws_eks_cluster" "eks-cluster" {
   name     = var.projectName
-  role_arn = var.labRole
+  role_arn = "arn:aws:iam::${var.accountId}:role/LabRole"
 
   vpc_config {
     subnet_ids         = [for subnet in data.aws_subnet.subnet : subnet.id if subnet.availability_zone != "${var.regionDefault}e"]

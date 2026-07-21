@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
-    bucket = "fiap-soat-tf-backend"
-    key = "fiap/terraform.tfstate"
+    bucket = "eks-demo-tf-backend-br"
+    key    = "terraform.tfstate"
     region = "us-east-1"
   }
 }

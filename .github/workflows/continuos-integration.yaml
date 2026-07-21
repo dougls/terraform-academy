@@ -5,6 +5,7 @@ on:
 
 env:
   AWS_REGION: us-east-1
+  TF_VAR_accountId: ${{ secrets.AWS_ACCOUNT_ID }}
 
 jobs:
   ci:

@@ -3,12 +3,10 @@ variable "regionDefault" {
 }
 
 variable "projectName" {
-  default = "EKS-FIAP"
+  default = "EKS-Demo"
 }
 
-variable "labRole" {
-  default = "arn:aws:iam::891377101229:role/LabRole"
-}
+variable "accountId" {}
 
 variable "accessConfig" {
   default = "API_AND_CONFIG_MAP"
@@ -20,10 +18,6 @@ variable "nodeGroup" {
 
 variable "instanceType" {
   default = "t3.medium"
-}
-
-variable "principalArn" {
-  default = "arn:aws:iam::891377101229:role/voclabs"
 }
 
 variable "policyArn" {
