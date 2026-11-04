@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
-    bucket = "eks-demo-tf-backend-br"
-    key    = "terraform.tfstate"
+    bucket = "caixaverso-fiap-2026"
+    key    = "caixa/terraform.tfstate"
     region = "us-east-1"
   }
 }
